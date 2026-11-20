@@ -44,6 +44,13 @@ The more load-sensitive the tyre, the less lap time a given downforce change buy
 | `tyre_mu.m` | Load-sensitive friction coefficient |
 | `corner_speed.m`, `accel_max.m`, `decel_max.m` | Speed limits |
 | `results/results_wing_sweep.csv` | Wing sweep for n = 0, 0.1, 0.2 |
+| `figures/wing_sweep.png` | Wing-sweep figure used above |
+
+## How to run
+
+- MATLAB R2020a or later (uses `exportgraphics`). As far as I know it needs no extra toolboxes; only base MATLAB functions are used.
+- Put your own telemetry CSV in a `data/` folder as `monza_2025Q_VER_fastest.csv` (columns: `Distance`, `x_m`, `y_m`, `v_ms`, `t_s`, `Throttle`, `Brake`, `nGear`). Telemetry is not included in this repo.
+- Open the LTS folder in MATLAB and run `LTS_V0.m` section by section. G3 calibrates `mu_ref`, G4 and G5 run the wing sweep, and G6 writes the figure.
 
 ## Limitations
 
