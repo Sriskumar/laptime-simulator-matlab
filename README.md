@@ -26,16 +26,18 @@ The more load-sensitive the tyre, the less lap time a given downforce change buy
 
 ![Wing sweep](figures/wing_sweep.png)
 
+![Speed trace](figures/speed_trace.png)
+
 ## Method
 
-1. Real track curvature and speed are derived from telemetry (extracted separately with FastF1; raw data is not included here).
+1. Real track curvature and speed are derived from telemetry (extracted with FastF1 in extract_telemetry.ipynb; raw data is not included here).
 2. Corner speed from `m v^2 kappa = mu(v) (m g + downforce)`, solved iteratively because grip depends on speed through downforce.
 3. Longitudinal limits: traction (with the friction circle) and power/drag for acceleration; combined-slip braking for deceleration.
 4. Forward pass (acceleration-limited) and backward pass (braking-limited), then the minimum of both gives the speed profile.
 5. Lap time by integrating distance over the average speed.
 6. The load-sensitive tyre model feeds all three limit functions; with `n = 0` it reproduces the original constant-grip model exactly (regression check).
 
-## Files
+### Files
 
 | File | Purpose |
 |---|---|
@@ -43,14 +45,15 @@ The more load-sensitive the tyre, the less lap time a given downforce change buy
 | `run_lap.m` | One full lap for a given `mu_ref`, `n` and `Cl` |
 | `tyre_mu.m` | Load-sensitive friction coefficient |
 | `corner_speed.m`, `accel_max.m`, `decel_max.m` | Speed limits |
+| `extract_telemetry.ipynb` | Downloads the lap with FastF1 and writes the CSV |
 | `results/results_wing_sweep.csv` | Wing sweep for n = 0, 0.1, 0.2 |
-| `figures/wing_sweep.png` | Wing-sweep figure used above |
+| `figures/wing_sweep.png`, `figures/speed_trace.png` | Figures used in this README |
 
 ## How to run
 
 - MATLAB R2020a or later (uses `exportgraphics`). As far as I know it needs no extra toolboxes; only base MATLAB functions are used.
-- Put your own telemetry CSV in a `data/` folder as `monza_2025Q_VER_fastest.csv` (columns: `Distance`, `x_m`, `y_m`, `v_ms`, `t_s`, `Throttle`, `Brake`, `nGear`). Telemetry is not included in this repo.
-- Open the LTS folder in MATLAB and run `LTS_V0.m` section by section. G3 calibrates `mu_ref`, G4 and G5 run the wing sweep, and G6 writes the figure.
+- Run `extract_telemetry.ipynb` first (Python with `fastf1`, `numpy`, `matplotlib` and `pandas`). It creates `data/monza_2025Q_VER_fastest.csv`. The telemetry itself is not included in this repo.
+- Open the LTS folder in MATLAB and run `LTS_V0.m` section by section. G3 calibrates `mu_ref`, G4 and G5 run the wing sweep, G6 and G7 write the figures.
 
 ## Limitations
 
@@ -65,7 +68,7 @@ Lateral load transfer and per-wheel tyre loads, a transient bicycle model, drive
 
 ## Data
 
-Telemetry was obtained through [FastF1](https://github.com/theOehrly/Fast-F1) and is not redistributed. Only derived results are included.
+Telemetry is fetched with [FastF1](https://github.com/theOehrly/Fast-F1) and is not redistributed. `extract_telemetry.ipynb` downloads the 2025 Monza qualifying fastest lap for VER and writes `data/monza_2025Q_VER_fastest.csv` (distance, position, speed, time, throttle, brake, gear). Only derived results are included in this repo.
 
 ## Author
 
