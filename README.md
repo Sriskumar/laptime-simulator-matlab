@@ -2,6 +2,8 @@
 
 A quasi-static lap-time simulator built on real Monza 2025 qualifying telemetry. It started as a constant-grip point-mass model; the current version (V0) replaces a distance-based grip correction with a physically motivated **load-sensitive tyre model** and uses it to ask how much a downforce change is really worth.
 
+[One-page summary (PDF)](LTS_V0_one_pager.pdf)
+
 ## Key results
 
 | | |
